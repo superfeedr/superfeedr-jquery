@@ -1,0 +1,37 @@
+{
+    "name": "superfeedr",
+    "title": "jQuery Superfeedr plugin",
+    "description": "jQuery plugin to load feeds from Superfeedr.",
+    "keywords": [
+        "feeds",
+        "feed",
+        "superfeedr",
+        "atom",
+        "rss"
+    ],
+    "version": "1.0.0",
+    "author": {
+        "name": "Superfeedr",
+        "url": "http://superfeedr.com/"
+    },
+    "maintainers": [
+        {
+            "name": "Julien Genestoux",
+            "email": "julien@superfeedr.com",
+            "url": "http://superfeedr.com"
+        }
+    ],
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "https://raw2.github.com/superfeedr/superfeedr-jquery/master/LICENSE"
+        }
+    ],
+    "bugs": "https://github.com/superfeedr/superfeedr-jquery/issues",
+    "homepage": "https://github.com/superfeedr/superfeedr-jquery",
+    "docs": "https://github.com/superfeedr/superfeedr-jquery",
+    "download": "http://code.jquery.com/#superfeedr",
+    "dependencies": {
+        "jquery": ">=1.5"
+    }
+}
