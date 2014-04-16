@@ -12,9 +12,6 @@
           cb = opts;
 
         var host = 'push.superfeedr.com'; //
-        var scheme = 'http';
-        if(opts.https)
-          scheme = 'https';
 
         if(!opts.count)
           opts.count = 5;
@@ -26,22 +23,21 @@
           'count': opts.count
         });
 
-        var url = scheme + '://' + $.superfeedr.options.login + ':' + $.superfeedr.options.key + "@" + host + '/'
+        var url = '//' + $.superfeedr.options.login + ':' + $.superfeedr.options.key + "@" + host + '/'
 
         url = [url, qs].join('?');
 
         var req = $.ajax({
-          type: "GET",
           url: url,
           dataType: "jsonp",
-          accepts: "application/json",
-        });
+          jsonp: "callback",
+         });
 
-        req.done(function(data) {
-          cb({feed: data});
-        })
-        .fail(function(e) {
-          console.log('FAIL', e)
+        req.done(function(data, textStatus, r) {
+          if(data.error) {
+            return cb(data);
+          }
+          return cb({feed: data});
         });
         return req;
       }
