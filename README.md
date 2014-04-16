@@ -15,36 +15,4 @@ It's loosely inspired by the [Google Feeds API](https://developers.google.com/fe
 
 ## Example
 
-```
-<html>
-  <head>
-    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-    <script src="../superfeedr.jquery.js"></script>
-
-    <script type="text/javascript">
-
-    $.superfeedr.options.login = 'demo'; // Superfeedr login
-    $.superfeedr.options.key = '10fd58858a279c4eb25bd57ea6d3eda2'; // Token value created at step 3.
-
-    var feed = new $.superfeedr.Feed('http://blog.superfeedr.com/atom.xml'); // Replace with the feed url you want to retrieve.
-
-    // The count option helps you determine how many stories you want to load. By default: 5.
-    feed.load({count: 10}, function(result) {
-        if (!result.error) {
-          var container = document.getElementById("feed");
-          for (var i = 0; i < result.feed.items.length; i++) {
-            var entry = result.feed.items[i];
-            var div = document.createElement("div");
-            div.appendChild(document.createTextNode(entry.title));
-            container.appendChild(div);
-          }
-        }
-    });
-    </script>
-  </head>
-  <body>
-    <div id="feed"></div>
-  </body>
-</html>
-```
-
+Check the `/examples` directory or the source code of [Superfeedr's home page](https://superfeedr.com/) for an example in the wild! Feel free to submit pull requests with links to your integration as well!
