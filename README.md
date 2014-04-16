@@ -1,6 +1,8 @@
 superfeedr-jquery
 =================
 
+![Superfeedr](https://superfeedr.com/images/superfeedr_complete.png)
+
 A Jquery plugin to access Superfeedr's retrieve API. It allows anyone to quickly and easily embed the content of any feed on their site.
 
 It's loosely inspired by the [Google Feeds API](https://developers.google.com/feed/) and uses Jquery as a dependency.
