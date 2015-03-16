@@ -5,11 +5,12 @@
     "keywords": [
         "feeds",
         "feed",
+        "stream",
         "superfeedr",
         "atom",
         "rss"
     ],
-    "version": "1.0.3",
+    "version": "1.1.0",
     "author": {
         "name": "Superfeedr",
         "url": "http://superfeedr.com/"
