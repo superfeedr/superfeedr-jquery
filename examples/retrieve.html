@@ -8,9 +8,13 @@
     $.superfeedr.options.login = 'demo';
     $.superfeedr.options.key = '10fd58858a279c4eb25bd57ea6d3eda2';
 
-    var feed = new $.superfeedr.Feed('http://push-pub.appspot.com/feed');
+    var feed = new $.superfeedr.Feed('http://blog.superfeedr.com/atom.xml');
 
-    feed.load({count: 3}, function(result) {
+    feed.setNumEntries(4);
+    feed.setResultFormat('json');
+
+    feed.load(function(result) {
+
         if (!result.error) {
           var container = document.getElementById("feed");
           for (var i = 0; i < result.feed.items.length; i++) {
@@ -26,6 +30,32 @@
           console.log(result.error.message);
         }
     });
+
+    var feed = new $.superfeedr.Feed('http://push-pub.appspot.com/feed');
+    
+    feed.stream(function(result) {
+        if (!result.error) {
+          var container = document.getElementById("feed");
+          for (var i = 0; i < result.feed.items.length; i++) {
+            var entry = result.feed.items[i];
+            var div = document.createElement("div");
+            div.appendChild(document.createTextNode(entry.title));
+            container.appendChild(div);
+          }
+        }
+        else {
+          document.getElementById("feed").appendChild(document.createTextNode(result.error.message));
+          console.log(result.error.code);
+          console.log(result.error.message);
+        }
+
+      
+    });
+
+
+
+
+
     </script>
   </head>
   <body>

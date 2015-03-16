@@ -9,28 +9,60 @@
     },
 
     Feed: function(feed) {
+
+      var count = 5;
+      var format = 'json';
+
+
+      // Google Feed API compatibility
+      this.setNumEntries = function setNumEntries(num) {
+        count = parseInt(num) || 5;
+        return count;
+      }
+
+      // Google Feed API compatibility
+      this.setResultFormat = function setResultFormat(_format) {
+        if(_format == 'json')
+          format = 'json'
+        else if(_format == 'atom')
+          format = 'atom'
+        return format;
+      }
+
+      // Google Feed API compatibility
+      this.includeHistoricalEntries = function includeHistoricalEntries() {
+        return true; // True all the time.
+      }
+
+      // Loads the content of feed.
+      // Accepts options as first argument, or a callback directly.
+      // options include
+      // - count (default: 5), can be set using setNumEntries
+      // - format (default: 'json'), can be set using setResultFormat ('json' or 'atom')
+      // - stream (default: false), uses EventSource to maintain connection option and handle upcoming entries. Only works with 'json' data format.
       this.load = function loadFeed(opts, cb) {
         if(typeof(opts) == 'function')
           cb = opts;
+        if(!opts || typeof(opts) != 'object')
+          opts = {};
 
-        var host = 'push.superfeedr.com'; //
+        var host = 'push.superfeedr.com'; 
 
-        if(!opts.count)
-          opts.count = 5;
+        if(opts.count)
+          this.setNumEntries(opts.count);
+
+        if(opts.format)
+          this.setResultFormat(opts.format);
 
         var qs = jQuery.param({
           'hub.mode': 'retrieve',
           'hub.topic': feed,
-          'format': 'json',
+          'format': format,
           'authorization': Base64.encode($.superfeedr.options.login + ':' + $.superfeedr.options.key),
-          'count': opts.count
+          'count': count
         });
 
-        console.log(qs);
-
-        var url = '//' + host + '/'
-
-        url = [url, qs].join('?');
+        var url = ['//' + host + '/', qs].join('?');
 
         var req = $.ajax({
           url: url,
@@ -45,6 +77,42 @@
           return cb({feed: data});
         });
         return req;
+      }
+
+      this.stream = function streamFeed(opts, cb) {
+        if(typeof(opts) == 'function')
+          cb = opts;
+        if(!opts || typeof(opts) != 'object')
+          opts = {};
+
+        var host = 'stream.superfeedr.com'; 
+
+        if(opts.count)
+          this.setNumEntries(opts.count);
+
+        this.setResultFormat('json');
+
+        var qs = jQuery.param({
+          'hub.mode': 'retrieve',
+          'hub.topic': feed,
+          'format': 'json',
+          'authorization': Base64.encode($.superfeedr.options.login + ':' + $.superfeedr.options.key),
+          'count': count
+        });
+
+        var url = ['//' + host + '/', qs].join('?');
+
+        var source = new EventSource(url);
+
+        source.onopen = function () {
+          if(typeof(opts.ready) == 'function')
+            return opts.ready();
+        };
+
+        source.addEventListener("notification", function(e) {
+          if(e.data)
+            return cb({feed: JSON.parse(e.data)});
+        });
       }
     }
   };
